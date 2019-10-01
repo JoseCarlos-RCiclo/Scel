@@ -6,7 +6,6 @@ import javax.persistence.*;
 public class Emprestimo {
 	
 	@Id
-
 	private	Long id;
 	private String isbn;
 	private String usuario;
