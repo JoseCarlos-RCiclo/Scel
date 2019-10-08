@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AlunoRepository extends CrudRepository<Aluno, Long> {
 	@Query("SELECT l FROM Aluno l WHERE l.ra = :ra")
-	public Aluno findByra(@Param("ra") String ra);
+	public Aluno findByra(@Param("ra") Long ra);
 }

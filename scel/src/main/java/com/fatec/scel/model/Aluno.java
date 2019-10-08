@@ -9,7 +9,7 @@ public class Aluno {
 	@Id
 	@Column(nullable = false, length=13)
 	@NotEmpty(message = "O RA deve ser preenchido")//exibe mensagem de obrigatoriedade de campo
-	private String ra;
+	private Long ra;
 	@Column(nullable = false, length=100)
 	@NotEmpty(message = "O Nome deve ser preenchido")
 	private String nome;
@@ -18,10 +18,10 @@ public class Aluno {
 	private String email;
 	
 	
-	public String getRa() {
+	public Long getRa() {
 		return ra;
 	}
-	public void setRa(String ra) {
+	public void setRa(Long ra) {
 		this.ra = ra;
 	}
 	public String getNome() {

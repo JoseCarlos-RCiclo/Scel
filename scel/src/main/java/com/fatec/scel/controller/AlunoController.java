@@ -15,7 +15,7 @@ import com.fatec.scel.model.AlunoRepository;
 @RestController
 @RequestMapping(path = "/aluno")
 public class AlunoController {
-//insert into aluno values ('1', 'Pressman','aaaa', 'engenharia')
+//insert into aluno values ()
 	@Autowired
 	private AlunoRepository repository;
 
@@ -38,23 +38,12 @@ public class AlunoController {
 		mv.addObject("aluno", aluno);
 		return mv;
 	}
-	/**
-	 * quando o usuario digita localhost:8080/api/add
-	 *
-	 * @param aluno
-	 * @return o html /CadastraAluno
-	 */
-	@GetMapping("/cadastrar")
-	public ModelAndView cadastraAluno(Aluno Aluno) {
-		ModelAndView mv = new ModelAndView("cadastrarAluno");
-		mv.addObject("aluno", aluno);
-		return mv;
-	}
+	
 
 	@GetMapping("/edit/{isbn}") // diz ao metodo que ira responder a uma requisicao do tipo get
-	public ModelAndView mostraFormAdd(@PathVariable("isbn") String isbn) {
+	public ModelAndView mostraFormAdd(@PathVariable("ra") Long ra) {
 		ModelAndView modelAndView = new ModelAndView("atualizaAluno");
-		modelAndView.addObject("aluno", repository.findByIsbn(isbn)); // o repositorio e injetado no controller
+		modelAndView.addObject("aluno", repository.findByra(ra)); // o repositorio e injetado no controller
 		return modelAndView; // addObject adiciona objetos para view
 	}
 
@@ -74,7 +63,7 @@ public class AlunoController {
 		}
 		try {
 			Aluno jaExiste = null;
-			jaExiste = repository.findByIsbn(aluno.getIsbn());
+			jaExiste = repository.findByra(aluno.getRa());
 			if (jaExiste == null) {
 				repository.save(aluno);
 				modelAndView = new ModelAndView("consultarAluno");
@@ -89,16 +78,15 @@ public class AlunoController {
 		}
 	}
 
-	@PostMapping("/update/{id}")
-	public ModelAndView atualiza(@PathVariable("id") Long id, @Valid Aluno aluno, BindingResult result) {
+	@PostMapping("/update/{ra}")
+	public ModelAndView atualiza(@PathVariable("ra") Long ra, @Valid Aluno aluno, BindingResult result) {
 		if (result.hasErrors()) {
-			aluno.setId(id);
+			aluno.setRa(ra);
 			return new ModelAndView("atualizaAluno");
 		}
-		Aluno umAluno = repository.findById(id).get();
-		umAluno.setAutor(aluno.getAutor());
-		umAluno.setIsbn(aluno.getIsbn());
-		umAluno.setTitulo(aluno.getTitulo());
+		Aluno umAluno = repository.findByra(ra);
+		umAluno.setNome(aluno.getNome());
+		umAluno.setEmail(aluno.getEmail());
 		repository.save(umAluno);
 		ModelAndView modelAndView = new ModelAndView("consultarAluno");
 		modelAndView.addObject("aluno", repository.findAll());
